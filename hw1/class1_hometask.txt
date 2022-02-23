@@ -1,0 +1,63 @@
+# В базе из пункта 2 создать таблицу: не менее трёх столбцов различных типов. SQL-запрос на создание таблицы добавить в текстовый файл class1_hometask.txt.
+
+CREATE TABLE departments
+(
+    id     INT GENERATED ALWAYS AS IDENTITY,
+    parent INT,
+    name   VARCHAR(200)
+);
+
+CREATE TABLE employees
+(
+    id         INT GENERATED ALWAYS AS IDENTITY,
+    first_name VARCHAR(200),
+    last_name  VARCHAR(200),
+    salary     MONEY,
+    manager    INT,
+    department INT,
+    position   INT
+);
+
+CREATE TABLE positions
+(
+    id    INT GENERATED ALWAYS AS IDENTITY,
+    title VARCHAR(200)
+);
+
+# 2 В таблицу из пункта 3 вставить не менее трёх строк. SQL-запрос на вставку добавить в текстовый файл class1_hometask.txt.
+
+INSERT INTO departments(parent, name)
+VALUES
+    (1, 'root'),
+    (1, 'R&D'),
+    (1, 'HOME');
+
+INSERT INTO employees (first_name, last_name, salary, manager, department, position)
+VALUES
+    ('Jane', 'Doe', 75000.00, NULL, 2, 2),
+    ('John', 'Doe', 50000.00, NULL, 2, 1),
+    ('Piter', 'Doe', 800000.00, NULL, 3, 3);
+
+INSERT INTO positions(title)
+VALUES
+    ('Software Engineer I'),
+    ('Software Engineer II'),
+    ('Software Engineer III');
+
+# 3 Используя мета-команды psql, вывести список всех сущностей в базе данных из пункта 2. Полученный список сущностей
+добавить в текстовый файл class1_hometask.txt.
+
+                 List of relations
+ Schema |        Name        |   Type   |  Owner
+--------+--------------------+----------+----------
+ public | departments        | table    | postgres
+ public | departments_id_seq | sequence | postgres
+ public | employees          | table    | postgres
+ public | employees_id_seq   | sequence | postgres
+ public | positions          | table    | postgres
+ public | positions_id_seq   | sequence | postgres
+(6 rows)
+
+# 4 Придумать проект, над которым вы будете работать в последующих уроках. Примером может быть любой сайт/приложение, которым вы пользуетесь (YouTube, Medium, AirBnB, Booking, Twitter, Instagram, Facebook, LinkedIn). Это может быть соц. сеть, блог, книга рецептов, база данных авиаперелетов, мессенджер, система бронирования бань и саун и т.п.
+
+Instagram
