@@ -1,0 +1,80 @@
+1. До создания индекса по колонке email
+
+explain analyse select * from users
+where email = 'piter.doe@gmail.com'
+
+Seq Scan on users  (cost=0.00..124.54 rows=1 width=856) (actual time=0.639..27.199 rows=1 loops=1)
+  Filter: ((email)::text = 'piter.doe@gmail.com'::text)
+  Rows Removed by Filter: 1002
+Planning Time: 12.166 ms
+Execution Time: 27.686 ms
+
+После:
+
+Index Scan using users_email_idx on users  (cost=0.40..8.42 rows=1 width=856) (actual time=0.020..0.022 rows=1 loops=1)
+  Index Cond: ((email)::text = 'piter.doe@gmail.com'::text)
+Planning Time: 0.067 ms
+Execution Time: 0.040 ms
+
+2. До создания индекса по колонке username
+
+explain analyse select * from users
+where username = 'piter_doe'
+
+Seq Scan on users  (cost=0.00..124.54 rows=1 width=856) (actual time=0.936..27.133 rows=1 loops=1)
+  Filter: ((username)::text = 'piter_doe'::text)
+  Rows Removed by Filter: 1002
+Planning Time: 24.194 ms
+Execution Time: 27.705 ms
+
+После:
+
+Index Scan using users_username_idx on users  (cost=0.40..8.42 rows=1 width=856) (actual time=0.031..0.033 rows=1 loops=1)
+  Index Cond: ((username)::text = 'piter_doe'::text)
+Planning Time: 0.154 ms
+Execution Time: 0.048 ms
+
+3. До создания индекса по колонке user_id
+
+explain analyse select * from posts
+where user_id = 3
+
+Seq Scan on posts  (cost=0.00..112.54 rows=3 width=598) (actual time=1.753..2.766 rows=3 loops=1)
+  Filter: (user_id = 3)
+  Rows Removed by Filter: 1000
+Planning Time: 0.338 ms
+Execution Time: 2.798 ms
+
+После:
+
+Bitmap Heap Scan on posts  (cost=4.30..14.78 rows=3 width=598) (actual time=0.022..0.027 rows=3 loops=1)
+  Recheck Cond: (user_id = 3)
+  Heap Blocks: exact=3
+  ->  Bitmap Index Scan on posts_user_id_idx  (cost=0.00..4.30 rows=3 width=0) (actual time=0.017..0.017 rows=3 loops=1)
+        Index Cond: (user_id = 3)
+Planning Time: 0.080 ms
+Execution Time: 0.058 ms
+
+
+Статистика
+
+instabank=# \di+ users_email_idx;
+                                            List of relations
+ Schema |      Name       | Type  |  Owner   | Table | Persistence | Access method |  Size  | Description
+--------+-----------------+-------+----------+-------+-------------+---------------+--------+-------------
+ public | users_email_idx | index | postgres | users | permanent   | btree         | 280 kB |
+(1 row)
+
+instabank=# \di+ users_username_idx;
+                                              List of relations
+ Schema |        Name        | Type  |  Owner   | Table | Persistence | Access method |  Size  | Description
+--------+--------------------+-------+----------+-------+-------------+---------------+--------+-------------
+ public | users_username_idx | index | postgres | users | permanent   | btree         | 280 kB |
+(1 row)
+
+instabank=# \di+ posts_user_id_idx;
+                                             List of relations
+ Schema |       Name        | Type  |  Owner   | Table | Persistence | Access method | Size  | Description
+--------+-------------------+-------+----------+-------+-------------+---------------+-------+-------------
+ public | posts_user_id_idx | index | postgres | posts | permanent   | btree         | 40 kB |
+(1 row)
