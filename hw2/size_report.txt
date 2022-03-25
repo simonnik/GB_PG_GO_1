@@ -1,0 +1,29 @@
+СПИСОК ТАБЛИЦ
+ Schema |         Name          |   Type   |  Owner
+--------+-----------------------+----------+----------
+ public | posts                 | table    | postgres
+ public | posts_comments        | table    | postgres
+ public | posts_favorites       | table    | postgres
+ public | posts_images          | table    | postgres
+ public | users                 | table    | postgres
+(5 rows)
+
+КОЛИЧЕСТВО СТРОК В КАЖДОЙ ТАБЛИЦЕ В СООТВЕТСТВИИ СО СТАТИСТИКОЙ, КОТОРУЮ СОБИРАЕТ POSTGRES;
+posts_images,7
+posts,3
+users,3
+posts_comments,6
+posts_favorites,6
+
+ОБЪЁМ ДИСКА, ЗАНИМАЕМОГО КАЖДОЙ ТАБЛИЦЕЙ;
+ Schema |         Name          |   Type   |  Owner   | Persistence | Access method |    Size    | Description
+--------+-----------------------+----------+----------+-------------+---------------+------------+-------------
+ public | posts                 | table    | postgres | permanent   | heap          | 16 kB      |
+ public | posts_comments        | table    | postgres | permanent   | heap          | 16 kB      |
+ public | posts_favorites       | table    | postgres | permanent   | heap          | 8192 bytes |
+ public | posts_images          | table    | postgres | permanent   | heap          | 8192 bytes |
+ public | users                 | table    | postgres | permanent   | heap          | 16 kB      |
+(5 rows)
+
+ОБЩИЙ ОБЪЁМ ДИСКА, ЗАНИМАЕМОГО ЭКЗЕМПЛЯРОМ POSTGRES.
+50M

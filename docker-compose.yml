@@ -6,5 +6,13 @@ services:
       - "${PG_PORT}:5432"
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
+      PGDATA: /var/lib/postgresql/data
     volumes:
       - ./db/:/docker-entrypoint-initdb.d
+      - ./mntdata:/var/lib/postgresql/data
+      - ./workdir:/workdir
+    working_dir: /workdir
+  mock:
+    image: ghcr.io/pivotal-gss/mock-data:latest
+    volumes:
+      - ./mock-data:/home/mock

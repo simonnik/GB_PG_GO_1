@@ -33,5 +33,8 @@ docker-pull:
 docker-build:
 	docker-compose build
 
+shell-pg:
+	docker-compose exec postgres bash
+
 .PHONY: init \
 	run
